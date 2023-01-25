@@ -93,6 +93,7 @@ class FullShotClassDataLoader(MyDataLoader):
         X_val = self.data.X_val
         X_test = self.data.X_test
         X_demo = self.data.X_demo
+        print(X_test.shape, 'ongod bruv')
 
         X_train_tensor = self._convert_single_np_array_to_tensor(X_train)
         X_val_tensor = self._convert_single_np_array_to_tensor(X_val)
@@ -174,7 +175,6 @@ class FullShotClassDataLoader(MyDataLoader):
 
         # Load X data
         X_train_tensor, X_val_tensor, X_test_tensor, X_demo_tensor = self._load_X_tensor_from_sl_data()
-
         # Load Y data
         Y_train, Y_val, Ys_test, Yo_test, Ys_bin_test, Yo_demo, Ys_demo, Ys_bin_demo = self._load_Y_from_sl_data(
             self.class_type)

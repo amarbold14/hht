@@ -86,7 +86,9 @@ class ModelEvaluator(Evaluator):
         # Forward pass on the test set
         with torch.no_grad():
             num_of_points = X_test.shape[0]
-
+            print('X test shape: ', X_test.shape)
+            print('X', X_test[:,:,10:13].shape)
+            print(Ys_test.shape)
             for i in range(num_of_points):
                 X_test_processed = torch.FloatTensor(num_of_points, 3, 224, 224).to('cuda')
                 cur_point = X_test[i, :, 10:13].numpy(force=True)

@@ -179,7 +179,8 @@ class ModelTrainer(MyTrainer):
                     batch_processed[i, :, :, :] = cur_processed
 
                 self.total_batch_number += 1
-
+                # print('batch number', self.total_batch_number)
+                # print(batch_x.shape, 'batch_x_shape')
                 # Forward pass
                 outputs = self.model.forward(batch_processed)
                 outputs = torch.nn.functional.sigmoid(outputs)
@@ -198,9 +199,11 @@ class ModelTrainer(MyTrainer):
                 # Forward pass with validation set
                 self.model.eval()
                 with torch.no_grad():  # Use the whole validation set
-                    num_of_points = X_val_tensor.shape[0]
-                    # num_of_points = 2
+                    # num_of_points = X_val_tensor.shape[0]
+                    # print(num_of_points)
+                    num_of_points = 64
                     for i in range(num_of_points):
+                        # print('here')
                         X_val_processed = torch.FloatTensor(num_of_points, 3, 224, 224).to('cuda')
                         cur_point = X_val_tensor[i, :, 10:13].numpy(force=True)
                         cur_processed = hht.get_image(cur_point)
@@ -210,9 +213,9 @@ class ModelTrainer(MyTrainer):
                     outputs_val = torch.nn.functional.sigmoid(outputs_val)
 
                     # Compute loss and accuracy
-                    loss_val = self.criterion(outputs_val, Y_val_tensor)
+                    loss_val = self.criterion(outputs_val, Y_val_tensor[:64,:])
                     acc_val, _, _ = nn_util_network_output_to_class_prediction_acc(outputs=outputs_val,
-                                                                                   groundtruths=Y_val_tensor,
+                                                                                   groundtruths=Y_val_tensor[:64,:],
                                                                                    accuracy=self.accuracy,
                                                                                    class_type=self.class_type)
                     # Accumulate loss and accuracy for Writer
@@ -221,7 +224,7 @@ class ModelTrainer(MyTrainer):
 
                 # Report batch information
                 self._report_and_record_batch_info(batch_number=batch_number, epoch=epoch,
-                                                   loss=loss, acc=acc, loss_val=0, acc_val=0)
+                                                   loss=loss, acc=acc, loss_val=loss_val, acc_val=acc_val)
             # Record epoch information
             _, _, _, avg_epoch_val_acc = self._report_and_record_epoch_info(batch_number=batch_number, epoch=epoch,
                                                                             epoch_start_time=epoch_start_time,

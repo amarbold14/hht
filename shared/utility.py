@@ -43,7 +43,7 @@ class SharedVariable:
         self.path_sq_label_data = "/data/sequence_label_data/"
 
         # Some where in MyData this is called to assert sufficient number of samples exist
-        self.min_number_of_sample = {'train': 1, 'val': 1, 'test': 1}
+        self.min_number_of_sample = {'train': 20000, 'val': 5000, 'test': 3000}
 
     def _init_based_on_host_machine(self):
         """

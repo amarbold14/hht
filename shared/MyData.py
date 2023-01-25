@@ -491,10 +491,10 @@ class SequenceLabelData:
 
     def _assert_number_of_samples(self, dataset_length, type_of_data):
         if type_of_data != 'demo':  # no need to assert demo, it doesn't have NN significance
-            # assert dataset_length >= self._min_number_of_sample[type_of_data], "Number of samples does not satisfy " \
-            #                                                                    "minimal number requirements: {} vs {} " \
-            #                                                                    "samples, try increase sample per experiment.".format(
-            #     dataset_length, self._min_number_of_sample[type_of_data])
+            assert dataset_length >= self._min_number_of_sample[type_of_data], "Number of samples does not satisfy " \
+                                                                               "minimal number requirements: {} vs {} " \
+                                                                               "samples, try increase sample per experiment.".format(
+                dataset_length, self._min_number_of_sample[type_of_data])
             pass
 
     def _generate_pkl_name(self):

@@ -40,8 +40,8 @@ def main_binary_resnet(train_config, data_config):
     Trainer.train(train_data=train_data, val_data=val_data)
 
     # Evaluate model
-    Evaluator = ModelEvaluator(Trainer=Trainer)
-    Evaluator.evaluate(test_data=test_data, print_model_architecture=False)
+    # Evaluator = ModelEvaluator(Trainer=Trainer)
+    # Evaluator.evaluate(test_data=test_data, print_model_architecture=False)
     # Evaluator.evaluate_demo(demo_data=demo_data)
 
     # Release
@@ -51,8 +51,9 @@ def main_binary_resnet(train_config, data_config):
 
 if __name__ == '__main__':
     # Iterators
+    torch.cuda.empty_cache()
     parameters = {'train_class_number_list': SharedVariable().default_train_class_number_list_bin,
-                  'batch_size_list': [64],
+                  'batch_size_list': [8],
                   'n_epoch_list': [100],
                   'early_stop_tolerance_list': [5],
                   'seed_list': [42]}
@@ -68,12 +69,12 @@ if __name__ == '__main__':
                         train_config = ResNetConfig(
                                                   n_epochs=n_epoch,
                                                   seed=seed,
-                                                  exp_lr_gamma=0.99,
+                                                  exp_lr_gamma=0.999,
                                                   early_stop_mode='not-best',
                                                   early_stop_tolerance=early_stop_tolerance,
                                                   criterion_type='BCE',
                                                   optimizer_type='adam',
-                                                  lr=[0.00001])
+                                                  lr=[0.0001])
 
                         # Initialize data configuration
                         data_config = ArbitraryDataConfig(window_length=2000,
